@@ -1,0 +1,9 @@
+rootProject.name = 'filter'
+include ':react-native-sensitive-info'
+project(':react-native-sensitive-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensitive-info/android')
+include ':react-native-config'
+project(':react-native-config').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-config/android')
+include ':react-native-webgl'
+project(':react-native-webgl').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webgl/android')
+
+include ':app'
