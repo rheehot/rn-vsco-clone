@@ -4680,6 +4680,10 @@ react-native-sensitive-info@^5.2.4:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/react-native-sensitive-info/-/react-native-sensitive-info-5.2.4.tgz#e6e49b60f176256e941043eb22523680bcef0c9e"
 
+react-native-store-photos-album@francisco-sanchez-molina/react-native-store-photos-album:
+  version "0.1.2"
+  resolved "https://codeload.github.com/francisco-sanchez-molina/react-native-store-photos-album/tar.gz/26e9f1327c44d639e8f17e66788d484c03256cc3"
+
 react-native-swiper@^1.5.13:
   version "1.5.13"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"

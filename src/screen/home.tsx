@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, View, StyleSheet, StatusBar} from 'react-native'
+import {Button, View, StyleSheet, StatusBar, TouchableOpacity, Text} from 'react-native'
 import {auth, AuthState} from '../redux/auth/reducer'
 import {connect} from 'react-redux'
 import {RootState} from '../redux'
@@ -8,10 +8,15 @@ import {LoginStatus} from '../components/loginStatus'
 import {NavigationActions} from 'react-navigation'
 import {CameraRollPicker} from '../lib/cameraRollPicker'
 import Swiper from 'react-native-swiper'
-import {statusBarSize} from '../lib/statusBarSize'
+import {RNCamera} from 'react-native-camera'
+import FeatherIcon from 'react-native-vector-icons/Feather'
+import {Camera} from './camera'
+import {hiddenStatusBarSize, statusBarSize} from '../lib/screenSize'
+import {isIphoneX} from 'react-native-iphone-x-helper'
+import {Roll} from './roll'
 
 interface State {
-  pictures: string[]
+  slideIndex: number
 }
 
 interface OwnProps {
@@ -34,31 +39,88 @@ class HomeScreen extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      pictures: [],
+      slideIndex: 1,
     }
 
-    this.getSelectedPictures = this.getSelectedPictures.bind(this)
+    this.onSlideIndexChanged = this.onSlideIndexChanged.bind(this)
   }
 
-  async getSelectedPictures(pictures) {
-    if (pictures && pictures.length > 0) {
-      this.setState({
-        pictures: pictures,
-      })
+  swiper: any
+
+  goToSlider(index: number) {
+    if (this.swiper) {
+      this.swiper.scrollBy(index, true)
     }
+  }
+
+  onSlideIndexChanged(slideIndex) {
+    this.setState({slideIndex})
+  }
+
+  _renderCamera() {
+    return (
+      <Camera enable={this.state.slideIndex === 0}/>
+    )
+  }
+
+  _renderRoll() {
+    return (
+      <Roll/>
+    )
+  }
+
+  _renderHeader() {
+    return (
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.headerIcon}
+          onPress={() => this.goToSlider(-1)}
+        >
+          <FeatherIcon
+            name="camera"
+            size={25}
+            color="#000000"
+          />
+        </TouchableOpacity>
+        <Text style={styles.headerLogo}>
+          Unless
+        </Text>
+        <TouchableOpacity
+          style={styles.headerIcon}
+          onPress={() => this.goToSlider(1)}
+        >
+          <FeatherIcon
+            name="download"
+            size={25}
+            color="#000000"
+          />
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   _renderSlider() {
     return (
-      <Swiper index={1}
-              loop={false}
-              showsButtons={false}
-              showsPagination={false}>
-        <View style={styles.cameraContainer}>
+      <Swiper
+        ref={ref => {
+          this.swiper = ref
+        }}
+        index={1}
+        onIndexChanged={this.onSlideIndexChanged}
+        loop={false}
+        showsButtons={false}
+        showsPagination={false}>
+        <View style={styles.container}>
+          {
+            this._renderCamera()
+          }
         </View>
         <View style={styles.container}>
           {
-            this._renderMain()
+            this._renderHeader()
+          }
+          {
+            this._renderRoll()
           }
         </View>
         <View style={styles.container}>
@@ -67,35 +129,20 @@ class HomeScreen extends React.Component<Props, State> {
     )
   }
 
-  _renderMain() {
-    return (
-      <View style={styles.container}>
-        {
-          this._renderHeader()
-        }
-
-        <CameraRollPicker
-          onSubmit={this.getSelectedPictures}
-          maximum={1}/>
-      </View>
-    )
-  }
-
-  _renderHeader() {
-    return (
-      <View style={styles.header}>
-
-      </View>
-    )
-  }
 
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          backgroundColor="#ffffff"
-          barStyle="dark-content"
-        />
+        {
+          isIphoneX() ?
+            <StatusBar
+              backgroundColor="#ffffff"
+              barStyle="dark-content"
+            />
+            :
+            <StatusBar hidden={true}/>
+
+        }
         {
           this._renderSlider()
         }
@@ -114,19 +161,36 @@ export const
   })(HomeScreen)
 
 const styles = StyleSheet.create({
-  container      : {
+  container : {
     flex           : 1,
     backgroundColor: '#ffffff',
   },
-  cameraContainer: {
-    flex           : 1,
-    backgroundColor: '#000000',
+  header    : {
+    height           : hiddenStatusBarSize + 50,
+    paddingTop       : hiddenStatusBarSize,
+    backgroundColor  : '#ffffff',
+    borderBottomWidth: 2,
+    borderBottomColor: '#000000',
+    flexWrap         : 'wrap',
+    flexDirection    : 'row',
+    alignItems       : 'center',
+    justifyContent   : 'space-between',
   },
-  header         : {
-    height         : statusBarSize + 50,
-    backgroundColor: '#ffffff',
-
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#d3d3d3',
+  headerLogo: {
+    fontSize  : 20,
+    fontWeight: '500',
+    fontFamily: 'Hind',
+    color     : '#000000',
+    marginTop : 5,
+  },
+  headerIcon: {
+    width         : 50,
+    height        : 50,
+    marginLeft    : 5,
+    marginRight   : 5,
+    flexWrap      : 'wrap',
+    flexDirection : 'row',
+    alignItems    : 'center',
+    justifyContent: 'center',
   },
 })

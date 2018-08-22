@@ -14,22 +14,7 @@ import {
 } from 'react-native'
 import * as React from 'react'
 import {AnimationText} from './animationText'
-import {ifIphoneX} from 'react-native-iphone-x-helper'
-
-const isIOS = Platform.OS === 'ios'
-const statusBarSize = function() {
-  if (Platform.OS === 'ios') {
-    return ifIphoneX(44, 20)
-  }
-
-  return 0
-}()
-
-const bottomPadding = function() {
-  return ifIphoneX(34, 0)
-}()
-
-const width = Dimensions.get('window').width
+import {safeBottomAreaSize, screenWidth} from './screenSize'
 
 interface ImageItemState {
 
@@ -149,7 +134,7 @@ export class CameraRollPicker extends React.PureComponent<CameraRollPickerProps,
   }
 
   async componentWillMount() {
-    this.imageSize = (width - (this.props.imagesPerRow + 1) * this.props.imageMargin) / this.props.imagesPerRow
+    this.imageSize = (screenWidth - (this.props.imagesPerRow + 1) * this.props.imageMargin) / this.props.imagesPerRow
 
     if (await this._checkPermission()) {
       this.fetch()
@@ -325,38 +310,40 @@ const styles = StyleSheet.create({
   },
   activeStyle           : {
     color     : '#ffffff',
-    fontSize  : 17,
-    fontWeight: 'bold',
+    fontSize  : 20,
+    fontWeight: '500',
   },
   activeContainerStyle  : {
     position       : 'absolute',
     bottom         : 0,
-    left           : -30,
-    right          : -30,
-    height         : 60 + bottomPadding,
+    left           : 10,
+    right          : 10,
+    height         : 50 + safeBottomAreaSize,
     alignItems     : 'center',
     justifyContent : 'center',
     borderRadius   : 0,
-    backgroundColor: '#000000',
+    backgroundColor: '#FF19DD',
+    // borderTopWidth:2,
+    // borderColor:'#ffffff'
   },
   inactiveStyle         : {
     color     : '#797979',
-    fontSize  : 17,
-    fontWeight: 'bold',
+    fontSize  : 20,
+    fontWeight: '500',
   },
   inactiveContainerStyle: {
     position       : 'absolute',
-    bottom         : 0,
-    left           : -30,
-    right          : -30,
-    height         : 60 + bottomPadding,
+    bottom         : -50 - safeBottomAreaSize,
+    left           : 20,
+    right          : 20,
+    height         : 50 + safeBottomAreaSize,
     alignItems     : 'center',
     justifyContent : 'center',
     borderRadius   : 0,
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
   listFooterContainer   : {
-    width          : width,
+    width          : screenWidth,
     height         : 90,
     backgroundColor: 'transparent',
   },
