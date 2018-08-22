@@ -2,7 +2,7 @@ import {createStackNavigator} from 'react-navigation'
 import {Home} from './screen/home'
 
 export const AppNavigator = createStackNavigator({
-  Home       : {screen: Home, navigationOptions: {title: 'Home'}},
+  Home       : {screen: Home, navigationOptions: {header: null}},
 }, {
   initialRouteName : 'Home',
   headerMode       : 'screen',
