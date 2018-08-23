@@ -9,9 +9,9 @@ export const screenWidth = Dimensions.get('window').width
 export const screenHeight = Dimensions.get('window').height
 export const ratio34Height = getRatio34Height(screenWidth)
 
-console.log('screenWidth', screenWidth)
-console.log('screenHeight', screenHeight)
-console.log('ratio34Height', ratio34Height)
+// console.log('screenWidth', screenWidth)
+// console.log('screenHeight', screenHeight)
+// console.log('ratio34Height', ratio34Height)
 
 export const statusBarSize = function() {
   if (Platform.OS === 'ios') {

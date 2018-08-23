@@ -43,6 +43,7 @@ class HomeScreen extends React.Component<Props, State> {
     }
 
     this.onSlideIndexChanged = this.onSlideIndexChanged.bind(this)
+    this.goToSlider = this.goToSlider.bind(this)
   }
 
   swiper: any
@@ -59,7 +60,10 @@ class HomeScreen extends React.Component<Props, State> {
 
   _renderCamera() {
     return (
-      <Camera enable={this.state.slideIndex === 0}/>
+      <Camera
+        enable={this.state.slideIndex === 0}
+        goToSlider={this.goToSlider}
+      />
     )
   }
 

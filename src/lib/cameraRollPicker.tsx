@@ -26,7 +26,7 @@ interface ImageItemProps {
   selected: boolean
   onPressItem: (item: any, index: string | number) => void
   imageSize: number
-  imageMargin:number
+  imageMargin: number
 }
 
 class ImageItem extends React.PureComponent<ImageItemProps, ImageItemState> {
@@ -47,7 +47,7 @@ class ImageItem extends React.PureComponent<ImageItemProps, ImageItemState> {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        style={{padding:imageMargin / 2,width: imageWidth + imageMargin, height: imageHeight + imageMargin}}
+        style={{padding: imageMargin / 2, width: imageWidth + imageMargin, height: imageHeight + imageMargin}}
         onPress={() => this._onPress(uri, index)}
       >
         <Image
@@ -303,10 +303,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContainer         : {
-    flex   : 1,
+    flex: 1,
   },
   contentContainer      : {
-    padding:10
+    padding: 10,
   },
   activeStyle           : {
     color     : '#ffffff',
@@ -314,15 +314,17 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   activeContainerStyle  : {
-    position       : 'absolute',
-    bottom         : 0,
-    left           : 10,
-    right          : 10,
-    height         : 50 + safeBottomAreaSize,
-    alignItems     : 'center',
-    justifyContent : 'center',
-    borderRadius   : 0,
-    backgroundColor: '#FF19DD',
+    position            : 'absolute',
+    bottom              : 0,
+    left                : 10,
+    right               : 10,
+    height              : 50 + safeBottomAreaSize,
+    paddingBottom       : safeBottomAreaSize,
+    alignItems          : 'center',
+    justifyContent      : 'center',
+    borderTopLeftRadius : 5,
+    borderTopRightRadius: 5,
+    backgroundColor     : '#FF19DD',
     // borderTopWidth:2,
     // borderColor:'#ffffff'
   },
